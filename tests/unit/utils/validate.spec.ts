@@ -1,10 +1,10 @@
-import { isValidUsername, isExternal } from '@/utils/validate'
+import { isValidEmail, isExternal } from '@/utils/validate'
 
 describe('Utils:validate', () => {
   it('isValidUsername', () => {
-    expect(isValidUsername('admin')).toBe(true)
-    expect(isValidUsername('editor')).toBe(true)
-    expect(isValidUsername('xxxx')).toBe(false)
+    expect(isValidEmail('admin')).toBe(true)
+    expect(isValidEmail('editor')).toBe(true)
+    expect(isValidEmail('xxxx')).toBe(false)
   })
 
   it('isExternal', () => {

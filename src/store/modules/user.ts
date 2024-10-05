@@ -1,4 +1,10 @@
-import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-decorators'
+import {
+  VuexModule,
+  Module,
+  Action,
+  Mutation,
+  getModule
+} from 'vuex-module-decorators'
 import { login, logout, getUserInfo } from '@/api/users'
 import { getToken, setToken, removeToken } from '@/utils/cookies'
 import router, { resetRouter } from '@/router'
@@ -17,12 +23,12 @@ export interface IUserState {
 
 @Module({ dynamic: true, store, name: 'user' })
 class User extends VuexModule implements IUserState {
-  public token = getToken() || ''
-  public name = ''
-  public avatar = ''
-  public introduction = ''
-  public roles: string[] = []
-  public email = ''
+  public token = getToken() || '';
+  public name = '';
+  public avatar = '';
+  public introduction = '';
+  public roles: string[] = [];
+  public email = '';
 
   @Mutation
   private SET_TOKEN(token: string) {
@@ -55,10 +61,10 @@ class User extends VuexModule implements IUserState {
   }
 
   @Action
-  public async Login(userInfo: { username: string, password: string}) {
-    let { username, password } = userInfo
-    username = username.trim()
-    const { data } = await login({ username, password })
+  public async Login(userInfo: { email: string, password: string }) {
+    let { email, password } = userInfo
+    email = email.trim()
+    const { data } = await login({ email, password })
     setToken(data.accessToken)
     this.SET_TOKEN(data.accessToken)
   }
@@ -75,7 +81,9 @@ class User extends VuexModule implements IUserState {
     if (this.token === '') {
       throw Error('GetUserInfo: token is undefined!')
     }
-    const { data } = await getUserInfo({ /* Your params here */ })
+    const { data } = await getUserInfo({
+      /* Your params here */
+    })
     if (!data) {
       throw Error('Verification failed, please Login again.')
     }

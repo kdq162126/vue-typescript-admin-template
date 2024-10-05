@@ -8,7 +8,8 @@ const userList: IUserData[] = [
     username: 'admin',
     password: 'any',
     name: 'Super Admin',
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    avatar:
+      'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     introduction: 'I am a super administrator',
     email: 'admin@test.com',
     phone: '1234567890',
@@ -19,7 +20,8 @@ const userList: IUserData[] = [
     username: 'editor',
     password: 'any',
     name: 'Normal Editor',
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    avatar:
+      'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     introduction: 'I am an editor',
     email: 'editor@test.com',
     phone: '1234567890',
@@ -44,18 +46,18 @@ for (let i = 2; i < userCount; i++) {
 
 export const register = (req: Request, res: Response) => {
   return res.json({
-    code: 20000
+    code: 200
   })
 }
 
 export const login = (req: Request, res: Response) => {
-  const { username } = req.body
+  const { email } = req.body
   for (const user of userList) {
-    if (user.username === username) {
+    if (user.email === email) {
       return res.json({
-        code: 20000,
+        code: 200,
         data: {
-          accessToken: username + '-token'
+          accessToken: user.roles[0] + '-token'
         }
       })
     }
@@ -68,7 +70,7 @@ export const login = (req: Request, res: Response) => {
 
 export const logout = (req: Request, res: Response) => {
   return res.json({
-    code: 20000
+    code: 200
   })
 }
 
@@ -79,7 +81,7 @@ export const getUsers = (req: Request, res: Response) => {
     return !(name && lowerCaseName.indexOf((name as string).toLowerCase()) < 0)
   })
   return res.json({
-    code: 20000,
+    code: 200,
     data: {
       items: users
     }
@@ -89,9 +91,12 @@ export const getUsers = (req: Request, res: Response) => {
 export const getUserInfo = (req: Request, res: Response) => {
   // Mock data based on access token
   return res.json({
-    code: 20000,
+    code: 200,
     data: {
-      user: req.header('X-Access-Token') === 'admin-token' ? userList[0] : userList[1]
+      user:
+        req.header('X-Access-Token') === 'admin-token'
+          ? userList[0]
+          : userList[1]
     }
   })
 }
@@ -99,9 +104,9 @@ export const getUserInfo = (req: Request, res: Response) => {
 export const getUserByName = (req: Request, res: Response) => {
   const { username } = req.params
   for (const user of userList) {
-    if (user.username === username) {
+    if (user.email === username) {
       return res.json({
-        code: 20000,
+        code: 200,
         data: {
           user
         }
@@ -118,9 +123,9 @@ export const updateUser = (req: Request, res: Response) => {
   const { username } = req.params
   const { user } = req.body
   for (const v of userList) {
-    if (v.username === username) {
+    if (v.email === username) {
       return res.json({
-        code: 20000,
+        code: 200,
         data: {
           user
         }
@@ -135,6 +140,6 @@ export const updateUser = (req: Request, res: Response) => {
 
 export const deleteUser = (req: Request, res: Response) => {
   return res.json({
-    code: 20000
+    code: 200
   })
 }

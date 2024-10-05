@@ -1,6 +1,10 @@
-export const isValidUsername = (str: string) => ['admin', 'editor'].indexOf(str.trim()) >= 0
+export const isValidEmail = (str: string) => {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  return emailRegex.test(str)
+}
 
-export const isExternal = (path: string) => /^(https?:|mailto:|tel:)/.test(path)
+export const isExternal = (path: string) =>
+  /^(https?:|mailto:|tel:)/.test(path)
 
 export const isArray = (arg: any) => {
   if (typeof Array.isArray === 'undefined') {

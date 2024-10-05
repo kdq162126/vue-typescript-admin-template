@@ -31,13 +31,11 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { UserModule } from '@/store/modules/user'
 import PanThumb from '@/components/PanThumb/index.vue'
-import GithubCorner from '@/components/GithubCorner/index.vue'
 
 @Component({
   name: 'DashboardEditor',
   components: {
-    PanThumb,
-    GithubCorner
+    PanThumb
   }
 })
 export default class extends Vue {

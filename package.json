@@ -4,7 +4,7 @@
   "private": true,
   "author": "Chong Guo <armourcy@gmail.com>",
   "scripts": {
-    "serve": "concurrently \"npm:mock\" \"vue-cli-service serve\"",
+    "serve": "concurrently \"vue-cli-service serve\"",
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "build:prod": "vue-cli-service build",
@@ -109,9 +109,6 @@
     "vue-template-compiler": "^2.6.12",
     "webpack": "^5.30.0"
   },
-  "bugs": {
-    "url": "https://github.com/armour/vue-typescript-admin-template/issues"
-  },
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
@@ -125,10 +122,6 @@
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": [
       "vue-cli-service lint"
-    ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/armour/vue-typescript-admin-template.git"
+  ]
   }
 }
