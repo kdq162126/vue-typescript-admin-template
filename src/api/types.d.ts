@@ -42,3 +42,33 @@ export interface IUserData {
   introduction: string
   roles: string[]
 }
+
+export interface IBotData {
+  id: number
+  address: string
+  isActive: boolean
+  lastActiveAt?: Date
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface ISettingData {
+  id: string
+  name?: string
+  strategy: number
+  bots?: object
+  schedule: object
+  meta: object
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface IGroupData {
+  id: string
+  name?: string
+  isRunning: boolean
+  settings?: ISettingData[]
+  bots?: IBotData[]
+  createdAt: Date
+  updatedAt: Date
+}

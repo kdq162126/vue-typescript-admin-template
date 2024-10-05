@@ -39,8 +39,8 @@ import ResizeMixin from './mixin/resize'
   components: {
     AppMain,
     Navbar,
-    RightPanel,
-    Settings,
+    // RightPanel,
+    // Settings,
     Sidebar,
     TagsView
   }
