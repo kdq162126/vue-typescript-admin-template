@@ -44,31 +44,31 @@ export interface IUserData {
 }
 
 export interface IBotData {
-  id: number
+  id?: number
   address: string
   isActive: boolean
   lastActiveAt?: Date
-  createdAt: Date
-  updatedAt: Date
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export interface ISettingData {
-  id: string
+  id?: string
   name?: string
   strategy: number
   bots?: object
   schedule: object
   meta: object
-  createdAt: Date
-  updatedAt: Date
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export interface IGroupData {
-  id: string
+  id?: string
   name?: string
   isRunning: boolean
   settings?: ISettingData[]
   bots?: IBotData[]
-  createdAt: Date
-  updatedAt: Date
+  createdAt?: Date
+  updatedAt?: Date
 }

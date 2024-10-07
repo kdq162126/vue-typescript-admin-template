@@ -136,21 +136,116 @@
         :model="tempArticleData"
         label-position="left"
         label-width="100px"
-        style="width: 400px; margin-left:50px;"
+        style="width: 800px; margin-left:50px;"
       >
         <el-form-item
           label="Name"
           prop="name"
+          style="width: 50%;"
         >
           <el-input v-model="tempArticleData.name" />
         </el-form-item>
-        <el-button plain
-          type="primary"
-          size="small"
-          symbol="circle"
+        <el-form-item
+          label="Settings"
         >
-          <i class="el-icon-plus"></i>
-        </el-button>
+          <el-button
+            plain
+            type="primary"
+            size="small"
+            @click="addRow"
+          >
+            <i class="el-icon-plus"></i>
+          </el-button>
+        </el-form-item>
+        <el-table
+          :key="tableKey"
+          v-loading="listLoading"
+          :data="list"
+          fit
+          highlight-current-row
+          style="width: 100%"
+        >
+          <el-table-column
+            label="Name"
+            prop="name"
+            align="center"
+            width="100px"
+          >
+            <template slot-scope="{row}">
+              <span>{{ row.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="Wallets"
+            min-width="100px"
+            align="center"
+          >
+          <el-select
+            v-model="value4"
+            multiple
+            collapse-tags
+            collapse-tags-tooltip
+            :max-collapse-tags="3"
+            placeholder="Select"
+            style="width: 240px"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+          </el-table-column>
+          <el-table-column
+            label="Schedule"
+            width="200px"
+            align="center"
+          >
+            <el-time-picker
+              v-model="defaultTime"
+              is-range
+              range-separator="-"
+              start-placeholder="Start time"
+              end-placeholder="End time"
+            />
+          </el-table-column>
+          <el-table-column
+            label="Strategy"
+            min-width="200px"
+            align="center"
+          >
+            <el-select
+              v-model="defaultStrategyValue"
+              placeholder="Select"
+              size="large"
+            >
+              <el-option
+                v-for="item in defaultStrategies"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-table-column>
+          <el-table-column
+            label="Action"
+            align="right"
+            width="230"
+            class-name="fixed-width"
+          >
+            <template slot-scope="{row, $index}">
+              <el-button
+                v-if="row.status!=='deleted'"
+                size="mini"
+                type="danger"
+                @click="handleDelete(row, $index)"
+              >
+                {{ $t('table.delete') }}
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-form>
       <div
         slot="footer"
@@ -208,33 +303,18 @@ import { cloneDeep } from 'lodash'
 import { getPageviews, createArticle, updateArticle, defaultArticleData } from '@/api/articles'
 import { IGroupData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
+import TimePicker from '@/components/TimePicker/index.vue'
 import { getGroups } from '@/api/bots'
-
-const calendarTypeOptions = [
-  { key: 'CN', displayName: 'China' },
-  { key: 'US', displayName: 'USA' },
-  { key: 'JP', displayName: 'Japan' },
-  { key: 'EU', displayName: 'Eurozone' }
-]
-
-// arr to obj, such as { CN : "China", US : "USA" }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc: { [key: string]: string }, cur) => {
-  acc[cur.key] = cur.displayName
-  return acc
-}, {}) as { [key: string]: string }
 
 @Component({
   name: 'BotList',
   components: {
-    Pagination
-  },
-  filters: {
-    typeFilter: (type: string) => {
-      return calendarTypeKeyValue[type]
-    }
+    Pagination,
+    TimePicker
   }
 })
 export default class extends Vue {
+  private dynamicRows: Array<{ name: string }> = [];
   private tableKey = 0
   private list: IGroupData[] = []
   private total = 0
@@ -248,10 +328,18 @@ export default class extends Vue {
     sort: '+id'
   }
 
-  private calendarTypeOptions = calendarTypeOptions
+  private defaultTime: Date[] = [
+    new Date(2016, 9, 10, 0, 0),
+    new Date(2016, 9, 10, 23, 59)
+  ]
 
-  private statusOptions = ['published', 'draft', 'deleted']
-  private showReviewer = false
+  private defaultStrategyValue = null
+  private defaultStrategies = [
+    { value: 0, label: 'Buy' },
+    { value: 1, label: 'Sell' },
+    { value: 2, label: 'Buy and Sell' }
+  ]
+
   private dialogFormVisible = false
   private dialogStatus = ''
   private textMap = {
@@ -271,6 +359,14 @@ export default class extends Vue {
 
   created() {
     this.getList()
+  }
+
+  private addRow() {
+    this.dynamicRows.push({ name: '' })
+  }
+
+  private removeRow(index: number) {
+    this.dynamicRows.splice(index, 1)
   }
 
   private async getList() {
@@ -394,3 +490,13 @@ export default class extends Vue {
   }
 }
 </script>
+
+<style>
+.demo-range .el-date-editor {
+  margin: 8px;
+}
+
+.demo-range .el-range-separator {
+  box-sizing: content-box;
+}
+</style>

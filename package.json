@@ -13,6 +13,7 @@
     "mock": "cd mock && ts-node-dev mock-server.ts"
   },
   "dependencies": {
+    "@achrinza/node-ipc": "^10.1.11",
     "@tinymce/tinymce-vue": "^3.2.6",
     "@toast-ui/editor": "^2.5.1",
     "axios": "^0.21.1",
@@ -22,6 +23,7 @@
     "cors": "^2.8.5",
     "driver.js": "^0.9.8",
     "echarts": "^5.0.2",
+    "element-plus": "^2.8.4",
     "element-ui": "^2.15.1",
     "faker": "^5.5.2",
     "file-saver": "^2.0.5",
@@ -122,6 +124,6 @@
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": [
       "vue-cli-service lint"
-  ]
+    ]
   }
 }

@@ -1,4 +1,10 @@
 import request from '@/utils/request'
+import { IGroupData } from './types'
+
+export const defaultGroupData: IGroupData = {
+  name: '',
+  isRunning: false
+}
 
 export const getBots = (params: any) =>
   request({
